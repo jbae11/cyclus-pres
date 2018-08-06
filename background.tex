@@ -19,6 +19,34 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Agent-based Framework}
+	\begin{figure}[htbp!]
+        \begin{center}
+                \includegraphics[width=\textwidth]{./images/source.png}
+        \end{center}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Agent-based Framework}
+	\begin{figure}[htbp!]
+        \begin{center}
+                \includegraphics[width=\textwidth]{./images/sink.png}
+        \end{center}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Agent-based Framework}
+	\begin{figure}[htbp!]
+        \begin{center}
+                \includegraphics[width=\textwidth]{./images/flow.png}
+        \end{center}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}
     \frametitle{Timestep Execution}
     A simplified explanation: Each timestep:
     
@@ -26,34 +54,24 @@
 \centering
 \scalebox{0.7}{
 \begin{tikzpicture}[node distance=1.5cm]
-\node (Build) [process] {Build (kernel)};
+\node (Build) [process] {Build if scheduled(kernel)};
 \node (Tick) [process, below of=Build] {Tick (agent)};
 \node (DRE) [process, below of=Tick]{Dynamic Resource Exchange (kernel) };
 \node (Tock) [process, below of=DRE]{Tock (agent)};
-\node (Decom) [process, below of=Tock] {Decommission (kernel)};
-\node (Decision) [process, below of=Decom] {\footnotemark Decision (agent)};
+\node (Decision) [process, below of=Tock] {\footnotemark Decision (agent)};
+\node (Decom) [process, below of=Decision] {Decommission if end of lifetime(kernel)};
 
 \draw [arrow] (Build) -- (Tick); 
 \draw [arrow] (Tick) -- (DRE);
 \draw [arrow] (DRE) -- (Tock);
-\draw [arrow] (Tock) -- (Decom);
-\draw [arrow] (Decom) -- (Decision);
+\draw [arrow] (Tock) -- (Decision);
+\draw [arrow] (Decision) -- (Decom);
 \end{tikzpicture}
 }
 \end{figure}
 
 \footnotetext{Decision phase is planned to be added in the next release.}
 \end{frame}
-
-\begin{frame}
-	\frametitle{General Info}
-	\begin{itemize}
-		\item Written in: C++, Python
-		\item Input file: xml, json, python
-		\item Output file: .sqlite, .hdf5
-	\end{itemize}
-\end{frame}
-
 
 \begin{frame}
 	\frametitle{Terminology}
@@ -66,8 +84,9 @@
 
 \begin{frame}
 	\frametitle{Terminology}
+	Agents can take the form of:
 	\begin{itemize}
-		\item \textbf{Region}: The group agent that is a collection of institutions (Can manage / control regions)
+		\item \textbf{Region}: The largest agent that is a collection of institutions (Set trade /material constraints)
 		\item \textbf{Institution}: Agent that manages facilities (Can deploy, decommission facilities)
 		\item \textbf{Facility}: The agent that `trades' and does calculations (Trades material and transmutes, separates)
 	\end{itemize}
@@ -77,16 +96,15 @@
 	\frametitle{Extensions - Archetypes}
 	Since Cyclus is an extensible framework, anyone can develop a new archetype and plug-and-play. (\textcolor{blue}{Institution}, \textcolor{red}{region}, facility otherwise.)
 	\begin{itemize}
-		\item Cycamore: Sink, Storage, Recipe Reactor, Fuelfab, Enrichment, Source, \textcolor{blue}{DeployInst}, Mixer, Separations, \textcolor{red}{GrowthRegion}
-		\item \textcolor{blue}{$^*$D3ploy}: Demand-driven deployment Institution (NEUP 16-10512) 
-		\item $^*$CYBORG: Reactor depletion analysis tool using ORIGEN
-		\item $^*$CYDER: A CYclus Disposal Environment and Repository object.
-		\item $^*$CORRM: Continuous On-line Reprocessing Reactor Module.
-		\item $^*$Pyre: Pyroprocessing module with non-proliferation metrics
-        \item $^*$Peddler: Simulate trucks and transport material between facilities.
+		\item Cycamore: Sink, Storage, Recipe Reactor, Fuelfab, Enrichment, Source, \textcolor{blue}{DeployInst}, Mixer, Separations, \textcolor{red}{GrowthRegion} \cite{huff_fundamental_2016}
+		\item \textcolor{blue}{$^*$D3ploy}: Demand-driven deployment Institution \cite{noauthor_d3ploy:_2018} 
+		\item $^*$CYBORG: Reactor depletion analysis tool using ORIGEN \cite{skutnik_cyborg:_2016}
+		\item $^*$CYDER: A CYclus Disposal Environment and Repository object \cite{huff_cyclus_2013}
+		\item $^*$CORRM: Continuous On-line Reprocessing Reactor Module \cite{recycle_recycle:_2018}
+		\item $^*$Pyre: Pyroprocessing module with non-proliferation metrics \cite{}
+        \item $^*$Peddler: Simulate trucks and transport material between facilities \cite{noauthor_peddler:_2018}
 		\item And more..
 	\end{itemize}
-
     \blfootnote{$^*$ Third party module in active development.}
 \end{frame}
 
@@ -96,9 +114,9 @@
 	\begin{itemize}
 		\item RICKSHAW: Automated stochastic driver for Cyclus
 		\item Cymetric: Extracts important fuel cycle metrics
-		\item Analysis: Collection of functions to extract metrics (e.g. natU usage, trade between two facilities, etc.)
+		\item Analysis: Collection of functions to extract metrics (e.g. natU usage, trade between two facilities, etc.) 
 		\item Cycmap: GIS visualization tool for Cyclus
-		\item Cyclist: GUI for Cyclus (DEPRACATED)
+		\item Cyclist: GUI for Cyclus (depracated)
 	\end{itemize}
 \end{frame}
 
@@ -107,7 +125,7 @@
 	\frametitle{Installation - Binary}
 	Better, more thorough explanations are in \texttt{fuelcycle.org}
 	\begin{itemize}
-		\item Windows: N/A
+		\item Windows: Windows 10 support Experimental (Can use virtualbox) 
 		\item MacOS: \texttt{conda install -c conda-forge cyclus cycamore}
 		\item Linux: \texttt{conda install cyclus cycamore}
 	\end{itemize}
@@ -124,6 +142,13 @@
 		\item Install dependency (see github guide README)
 		\item \texttt{python install.py}
 	\end{enumerate}
+
+	\begin{figure}[htbp!]
+        \begin{center}
+                \includegraphics[width=.6\textwidth]{./images/github.png}
+        \end{center}
+        \caption{Github website for Cyclus}
+	\end{figure}
 \end{frame}
 
 
@@ -133,7 +158,15 @@
 	\begin{enumerate}
 		\item Github Issue in \texttt{github.com/cyclus/cyclus}
 		\item Cyclus google user group
-        \item Email jbae11@illinois.edu (me)
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{General Info}
+	\begin{itemize}
+		\item Written in: C++, Python
+		\item Input file: Plaintext format (.xml, .json, .python)
+		\item Output file: Database (.sqlite, .hdf5)
+	\end{itemize}
 \end{frame}
 

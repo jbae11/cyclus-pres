@@ -1,5 +1,6 @@
 \begin{frame}
     \frametitle{Output}
+    Developers can set what values to output for each archetype.
     Cyclus records all transactions between \texttt{Facilities}
     and other metrics unique to each archetype, such as:
     \begin{itemize}
@@ -12,7 +13,7 @@
 \subsection{Example - French Transition}
 \begin{frame}
     \frametitle{Example Workflow}
-    This workflow was used in the paper \texttt{Synergistic Spent Nuclear Fuel Dynamics Within the European Union} (in ANS 2017 Winter meeting, journal publication pending).
+    This workflow was used in the paper \texttt{Synergistic Spent Nuclear Fuel Dynamics Within the European Union} (in ANS 2017 Winter meeting, journal publication submitted).
 
 \begin{figure}
 \scalebox{0.65}{
@@ -43,7 +44,7 @@ processes, respectively, in the computational workflow.}
     \frametitle{CSV to Cyclus input file}
     \begin{enumerate}
         \item Python script to parse through CSV file (reactor name, start / decom date, power output, etc)
-        \item Use Jinja template to construct input file (Python script fills curly brackets)
+        \item Use templates to construct input file (Python script fills curly brackets)
     \end{enumerate}
     \begin{figure}[htbp!]
         \begin{center}
@@ -58,7 +59,14 @@ processes, respectively, in the computational workflow.}
         \item Python script to query and process output data
         \item Use Jupyter notebook to organize / visualize output
     \end{itemize}
+\end{frame}
 
+\begin{frame}
+    \frametitle{Scenario Description}
+    \begin{itemize}
+        \item France transitions from LWR fleet to SFR fleet
+        \item France receives UNF from other EU nations for plutonium
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -149,9 +157,13 @@ processes, respectively, in the computational workflow.}
 
 \begin{frame}
     \frametitle{Predicting the past - U.S}
-    Work done by undergraduate researcher Gyutae Park at the University of Illinois - Urbana Champaign.
+    Work done by undergraduate researcher Gyutae Park and Gwendolyn Chee at the University of Illinois - Urbana Champaign.
     \begin{enumerate}
         \item Import database to construct Cyclus simulation
+        \begin{enumerate}
+            \item IAEA PRIS database for reactor deployment history
+            \item Wikidata for Reactor coordinates
+        \end{enumerate}
         \item `Predict the past' - fuel usage, power generated
         \item Demonstrate GIS capabilities of Cyclus
     \end{enumerate}
@@ -230,7 +242,7 @@ processes, respectively, in the computational workflow.}
     \frametitle{Results - GIS}
     \begin{figure}[htbp!]
         \begin{center}
-                \includegraphics[width=.8\textwidth]{./images/sim_output/us/map.png}
+                \includegraphics[width=\textwidth]{./images/sim_output/us/map.png}
         \end{center}
     \caption{Interactive map of U.S. reactors and fuel cycle
      facilities. Lines show transactions between two facilities.}
